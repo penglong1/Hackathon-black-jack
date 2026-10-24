@@ -1,0 +1,64 @@
+var (
+	isClone bool
+	itemType int
+)
+
+func applyCostume() {
+	if itemType == 1 {
+		setCostume "shield"
+	} else if itemType == 2 {
+		setCostume "laser"
+	} else {
+		setCostume "mine"
+	}
+}
+
+onStart => {
+	hide
+}
+
+onCloned data => {
+	isClone = true
+	itemType = itemSpawnType
+	applyCostume
+	setXYpos gridToX(itemSpawnCol), gridToY(itemSpawnRow)
+	show
+	wait 7
+	repeat 6, => {
+		hide
+		wait 0.25
+		show
+		wait 0.25
+	}
+	die
+}
+
+onTouchStart "Player", sprite => {
+	if isClone {
+		if itemType == 1 {
+			shieldHits = 3
+			Player.say "获得保护罩：可抵挡 3 次攻击", 1
+		} else if itemType == 2 {
+			laserCharges++
+			Player.say "获得镭射炮", 1
+		} else {
+			Player.say "踩中地雷！", 0.7
+			damagePlayer
+		}
+		die
+	}
+}
+
+onTouchStart ["Steel", "Crate", "Base"], sprite => {
+	if isClone {
+		die
+	}
+}
+
+onMsg "reset-game", => {
+	if isClone {
+		die
+	} else {
+		hide
+	}
+}

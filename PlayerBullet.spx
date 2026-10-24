@@ -1,0 +1,90 @@
+var (
+	isClone bool
+	gridCol int
+	gridRow int
+	direction int
+)
+
+func faceDirection() {
+	if direction == 0 {
+		turnTo Up
+	} else if direction == 1 {
+		turnTo Right
+	} else if direction == 2 {
+		turnTo Down
+	} else {
+		turnTo Left
+	}
+}
+
+func moveOne() {
+	if direction == 0 {
+		gridRow--
+	} else if direction == 1 {
+		gridCol++
+	} else if direction == 2 {
+		gridRow++
+	} else {
+		gridCol--
+	}
+	if !insideGrid(gridCol, gridRow) {
+		die
+		return
+	}
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+}
+
+onStart => {
+	hide
+}
+
+onCloned data => {
+	isClone = true
+	gridCol = bulletSpawnCol
+	gridRow = bulletSpawnRow
+	direction = bulletSpawnDirection
+	faceDirection
+	moveOne
+	show
+	forever => {
+		wait 0.055
+		moveOne
+	}
+}
+
+onTouchStart "Enemy", sprite => {
+	if isClone {
+		sprite.die
+		enemyDestroyed
+		die
+	}
+}
+
+onTouchStart "EnemyBullet", sprite => {
+	if isClone {
+		sprite.die
+		die
+	}
+}
+
+onTouchStart "Crate", sprite => {
+	if isClone {
+		sprite.die
+		score += 20
+		die
+	}
+}
+
+onTouchStart "Steel", sprite => {
+	if isClone {
+		die
+	}
+}
+
+onMsg "reset-game", => {
+	if isClone {
+		die
+	} else {
+		hide
+	}
+}

@@ -1,0 +1,178 @@
+var (
+	isClone bool
+	gridCol int
+	gridRow int
+	lastCol int
+	lastRow int
+	direction int
+	straightSteps int
+)
+
+func absInt(value int) int {
+	if value < 0 {
+		return -value
+	}
+	return value
+}
+
+func faceDirection() {
+	if direction == 0 {
+		turnTo Up
+	} else if direction == 1 {
+		turnTo Right
+	} else if direction == 2 {
+		turnTo Down
+	} else {
+		turnTo Left
+	}
+}
+
+func chooseDirection() int {
+	deltaCol := baseCol - gridCol
+	deltaRow := baseRow - gridRow
+
+	if straightSteps >= 2 && rand(1, 100) <= 65 {
+		if direction == 0 || direction == 2 {
+			if deltaCol >= 0 {
+				return 1
+			}
+			return 3
+		}
+		if deltaRow >= 0 {
+			return 2
+		}
+		return 0
+	}
+
+	if absInt(deltaRow) >= absInt(deltaCol) {
+		if deltaRow >= 0 {
+			return 2
+		}
+		return 0
+	}
+	if deltaCol >= 0 {
+		return 1
+	}
+	return 3
+}
+
+func moveOne() {
+	lastCol = gridCol
+	lastRow = gridRow
+	nextDirection := chooseDirection()
+	if nextDirection == direction {
+		straightSteps++
+	} else {
+		straightSteps = 1
+	}
+	direction = nextDirection
+	faceDirection
+
+	if direction == 0 {
+		gridRow--
+	} else if direction == 1 {
+		gridCol++
+	} else if direction == 2 {
+		gridRow++
+	} else {
+		gridCol--
+	}
+
+	if !insideGrid(gridCol, gridRow) {
+		gridCol = lastCol
+		gridRow = lastRow
+		direction = rand(0, 3)
+		straightSteps = 2
+		return
+	}
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+}
+
+func shoot() {
+	spawnEnemyShot gridCol, gridRow, direction
+}
+
+func inLaserLine() bool {
+	if laserDirection == 0 {
+		return gridCol == Player.gridCol && gridRow < Player.gridRow
+	} else if laserDirection == 1 {
+		return gridRow == Player.gridRow && gridCol > Player.gridCol
+	} else if laserDirection == 2 {
+		return gridCol == Player.gridCol && gridRow > Player.gridRow
+	}
+	return gridRow == Player.gridRow && gridCol < Player.gridCol
+}
+
+onStart => {
+	hide
+}
+
+onCloned data => {
+	isClone = true
+	gridCol = enemySpawnCol
+	gridRow = enemySpawnRow
+	direction = 2
+	straightSteps = 0
+	faceDirection
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+	show
+
+	forever => {
+		if gameRunning {
+			moveOne
+			if rand(1, 100) <= 45 {
+				shoot
+			}
+			wait 0.45
+		} else {
+			wait 0.2
+		}
+	}
+}
+
+onTouchStart ["Steel", "Crate", "Enemy"], sprite => {
+	if isClone {
+		gridCol = lastCol
+		gridRow = lastRow
+		setXYpos gridToX(gridCol), gridToY(gridRow)
+		direction = rand(0, 3)
+		straightSteps = 2
+	}
+}
+
+onTouchStart "Player", sprite => {
+	if isClone {
+		gridCol = lastCol
+		gridRow = lastRow
+		setXYpos gridToX(gridCol), gridToY(gridRow)
+		direction = chooseDirection()
+		faceDirection
+		shoot
+	}
+}
+
+onTouchStart "Base", sprite => {
+	if isClone {
+		gridCol = lastCol
+		gridRow = lastRow
+		setXYpos gridToX(gridCol), gridToY(gridRow)
+		direction = chooseDirection()
+		faceDirection
+		shoot
+	}
+}
+
+onMsg "laser-fired", => {
+	if isClone && gameRunning && inLaserLine() {
+		enemyDestroyed
+		die
+	}
+}
+
+onMsg "reset-game", => {
+	if isClone {
+		die
+	} else {
+		hide
+	}
+}

@@ -1,0 +1,116 @@
+var (
+	gridCol int
+	gridRow int
+	direction int
+	lastCol int
+	lastRow int
+)
+
+func faceDirection() {
+	if direction == 0 {
+		turnTo Up
+	} else if direction == 1 {
+		turnTo Right
+	} else if direction == 2 {
+		turnTo Down
+	} else {
+		turnTo Left
+	}
+}
+
+func resetPlayer() {
+	gridCol = 9
+	gridRow = 27
+	direction = 0
+	lastCol = gridCol
+	lastRow = gridRow
+	faceDirection
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+	show
+}
+
+func moveOne(nextDirection int) {
+	if !gameRunning {
+		return
+	}
+	direction = nextDirection
+	faceDirection
+	lastCol = gridCol
+	lastRow = gridRow
+
+	if direction == 0 {
+		gridRow--
+	} else if direction == 1 {
+		gridCol++
+	} else if direction == 2 {
+		gridRow++
+	} else {
+		gridCol--
+	}
+
+	if !insideGrid(gridCol, gridRow) {
+		gridCol = lastCol
+		gridRow = lastRow
+		return
+	}
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+}
+
+func attack() {
+	if !gameRunning {
+		return
+	}
+	if laserCharges > 0 {
+		laserCharges--
+		laserDirection = direction
+		broadcast "laser-fired"
+		return
+	}
+	spawnPlayerShot gridCol, gridRow, direction
+}
+
+onStart => {
+	resetPlayer
+}
+
+onKey KeyUp, => {
+	moveOne 0
+}
+
+onKey KeyRight, => {
+	moveOne 1
+}
+
+onKey KeyDown, => {
+	moveOne 2
+}
+
+onKey KeyLeft, => {
+	moveOne 3
+}
+
+onKey KeyX, => {
+	attack
+}
+
+onTouchStart ["Steel", "Crate", "Enemy", "Base"], sprite => {
+	gridCol = lastCol
+	gridRow = lastRow
+	setXYpos gridToX(gridCol), gridToY(gridRow)
+}
+
+onMsg "reset-game", => {
+	resetPlayer
+}
+
+onMsg "shield-hit", => {
+	say "护盾抵挡！", 0.5
+}
+
+onMsg "player-damaged", => {
+	say "生命 -1", 0.5
+}
+
+onMsg "game-over", => {
+	say gameOverReason + "，点击舞台重新开始"
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360">
+  <defs>
+    <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#172018"/>
+      <path d="M12 0H0V12" fill="none" stroke="#314035" stroke-width="0.5" opacity="0.55"/>
+    </pattern>
+  </defs>
+  <rect width="480" height="360" fill="#101510"/>
+  <rect x="120" width="240" height="360" fill="url(#grid)"/>
+  <path d="M120 0v360M360 0v360" stroke="#d4ad43" stroke-width="2" opacity="0.55"/>
+  <path d="M132 18h36M138 12v12M162 12v12" stroke="#e35e49" stroke-width="2" opacity="0.75"/>
+  <text x="132" y="34" fill="#d7ddd5" font-family="monospace" font-size="8">ENEMY ENTRY</text>
+  <text x="240" y="352" fill="#849086" font-family="monospace" font-size="7" text-anchor="middle">GRID ARMOR · 20 × 30</text>
+</svg>

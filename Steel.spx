@@ -1,0 +1,21 @@
+var (
+	isClone bool
+)
+
+onStart => {
+	hide
+}
+
+onCloned data => {
+	isClone = true
+	setXYpos gridToX(obstacleSpawnCol), gridToY(obstacleSpawnRow)
+	show
+}
+
+onMsg "reset-game", => {
+	if isClone {
+		die
+	} else {
+		hide
+	}
+}

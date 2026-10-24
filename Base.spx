@@ -1,0 +1,20 @@
+func resetBase() {
+	setXYpos gridToX(baseCol), gridToY(baseRow)
+	show
+}
+
+onStart => {
+	resetBase
+}
+
+onMsg "reset-game", => {
+	resetBase
+}
+
+onMsg "base-damaged", => {
+	say "基地受到攻击！", 0.7
+}
+
+onMsg "game-over", => {
+	say gameOverReason + "，点击舞台重新开始"
+}
