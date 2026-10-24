@@ -47,7 +47,7 @@ onCloned data => {
 	moveOne
 	show
 	forever => {
-		wait 0.055
+		wait 0.13
 		moveOne
 	}
 }
@@ -86,5 +86,11 @@ onMsg "reset-game", => {
 		die
 	} else {
 		hide
+	}
+}
+
+onMsg "game-over", => {
+	if isClone {
+		die
 	}
 }

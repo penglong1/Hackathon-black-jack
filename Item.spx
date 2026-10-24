@@ -62,3 +62,9 @@ onMsg "reset-game", => {
 		hide
 	}
 }
+
+onMsg "game-over", => {
+	if isClone {
+		die
+	}
+}

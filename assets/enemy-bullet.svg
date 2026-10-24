@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <circle cx="8" cy="8" r="5" fill="#ff806b"/>
-  <circle cx="8" cy="8" r="7" fill="none" stroke="#d94f3b" opacity="0.55"/>
+  <path d="M8 1l4 6-2 6H6L4 7z" fill="#ff937f" stroke="#d84d3a" stroke-width="1"/>
+  <path d="M6 13l2 3 2-3z" fill="#ffe071"/>
+  <circle cx="8" cy="7" r="1.5" fill="#ffe2dc" opacity="0.9"/>
 </svg>

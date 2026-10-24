@@ -4,7 +4,10 @@ var (
 	direction int
 	lastCol int
 	lastRow int
+	lastAttackAt float64
 )
+
+const attackCooldown = 0.4
 
 func faceDirection() {
 	if direction == 0 {
@@ -24,6 +27,7 @@ func resetPlayer() {
 	direction = 0
 	lastCol = gridCol
 	lastRow = gridRow
+	lastAttackAt = timer - attackCooldown
 	faceDirection
 	setXYpos gridToX(gridCol), gridToY(gridRow)
 	show
@@ -60,6 +64,10 @@ func attack() {
 	if !gameRunning {
 		return
 	}
+	if timer-lastAttackAt < attackCooldown {
+		return
+	}
+	lastAttackAt = timer
 	if laserCharges > 0 {
 		laserCharges--
 		laserDirection = direction

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 100%; height: 100%; background: #080b09; color: #e8eee9; font-family: sans-serif; }
+      body { display: grid; place-items: center; }
+      main { display: grid; grid-template-columns: 480px 280px; gap: 24px; align-items: start; }
+      .stage { position: relative; width: 480px; height: 360px; overflow: hidden; border: 1px solid #526257; }
+      .stage > img { width: 100%; height: 100%; }
+      .tank { position: absolute; left: 234px; top: 304px; width: 20px; height: 20px; transform-origin: center; }
+      .shot { position: absolute; width: 12px; height: 12px; transform-origin: center; }
+      .panel { display: grid; gap: 18px; }
+      .row { display: grid; grid-template-columns: repeat(4, 56px); gap: 10px; }
+      .sample { height: 72px; display: grid; place-items: center; background: #151b17; border: 1px solid #334039; }
+      .sample img { width: 28px; height: 28px; transform: rotate(var(--angle)); }
+      .sample small { font-size: 10px; color: #9eaaa2; }
+      h2 { margin: 0; font-size: 15px; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="stage">
+        <img src="../assets/backdrop.svg" alt="战场背景" />
+        <img class="tank" src="../assets/player.svg" alt="玩家坦克" />
+        <img class="shot" src="../assets/player-bullet.svg" alt="玩家炮弹" style="left:238px;top:286px" />
+      </div>
+      <section class="panel">
+        <h2>坦克与炮弹方向预览</h2>
+        <div class="row">
+          <div class="sample" style="--angle:0deg"><img src="../assets/player.svg" /><small>上</small></div>
+          <div class="sample" style="--angle:90deg"><img src="../assets/player.svg" /><small>右</small></div>
+          <div class="sample" style="--angle:180deg"><img src="../assets/player.svg" /><small>下</small></div>
+          <div class="sample" style="--angle:270deg"><img src="../assets/player.svg" /><small>左</small></div>
+        </div>
+        <div class="row">
+          <div class="sample" style="--angle:0deg"><img src="../assets/player-bullet.svg" /><small>上</small></div>
+          <div class="sample" style="--angle:90deg"><img src="../assets/player-bullet.svg" /><small>右</small></div>
+          <div class="sample" style="--angle:180deg"><img src="../assets/player-bullet.svg" /><small>下</small></div>
+          <div class="sample" style="--angle:270deg"><img src="../assets/player-bullet.svg" /><small>左</small></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

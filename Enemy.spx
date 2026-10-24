@@ -120,10 +120,10 @@ onCloned data => {
 	forever => {
 		if gameRunning {
 			moveOne
-			if rand(1, 100) <= 45 {
+			if rand(1, 100) <= 35 {
 				shoot
 			}
-			wait 0.45
+			wait 0.6
 		} else {
 			wait 0.2
 		}

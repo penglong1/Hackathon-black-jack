@@ -19,6 +19,7 @@ const sprites = [
     y: -150,
     size: 0.25,
     visible: true,
+    faceRight: 90,
     costumes: [{ name: 'player', source: 'player.svg', target: 'player.svg', width: 48, height: 48 }]
   },
   {
@@ -28,18 +29,21 @@ const sprites = [
     y: -174,
     size: 0.25,
     visible: true,
+    rotationStyle: 'none',
     costumes: [{ name: 'base', source: 'base.svg', target: 'base.svg', width: 48, height: 48 }]
   },
   {
     name: 'Enemy',
     id: 'tank-enemy',
     size: 0.25,
+    faceRight: 90,
     costumes: [{ name: 'enemy', source: 'enemy.svg', target: 'enemy.svg', width: 48, height: 48 }]
   },
   {
     name: 'PlayerBullet',
     id: 'tank-player-bullet',
     size: 0.45,
+    faceRight: 90,
     costumes: [
       {
         name: 'player-bullet',
@@ -54,6 +58,7 @@ const sprites = [
     name: 'EnemyBullet',
     id: 'tank-enemy-bullet',
     size: 0.45,
+    faceRight: 90,
     costumes: [
       {
         name: 'enemy-bullet',
@@ -68,18 +73,21 @@ const sprites = [
     name: 'Steel',
     id: 'tank-steel',
     size: 0.25,
+    rotationStyle: 'none',
     costumes: [{ name: 'steel', source: 'steel.svg', target: 'steel.svg', width: 48, height: 48 }]
   },
   {
     name: 'Crate',
     id: 'tank-crate',
     size: 0.25,
+    rotationStyle: 'none',
     costumes: [{ name: 'crate', source: 'crate.svg', target: 'crate.svg', width: 48, height: 48 }]
   },
   {
     name: 'Item',
     id: 'tank-item',
     size: 0.25,
+    rotationStyle: 'none',
     costumes: [
       { name: 'shield', source: 'item-shield.svg', target: 'shield.svg', width: 48, height: 48 },
       { name: 'laser', source: 'item-laser.svg', target: 'laser.svg', width: 48, height: 48 },
@@ -151,7 +159,7 @@ try {
       return {
         x: costume.width / 2,
         y: costume.height / 2,
-        faceRight: 0,
+        faceRight: sprite.faceRight ?? 0,
         bitmapResolution: 1,
         name: costume.name,
         path: costume.target,
@@ -166,7 +174,7 @@ try {
       x: sprite.x ?? 0,
       y: sprite.y ?? 0,
       size: sprite.size,
-      rotationStyle: 'normal',
+      rotationStyle: sprite.rotationStyle ?? 'normal',
       physicsMode: 'no',
       costumeIndex: 0,
       visible: sprite.visible ?? false,

@@ -51,6 +51,12 @@ assets/           舞台背景与角色造型 SVG
 node scripts/build-xbp.mjs
 ```
 
+方向、射击节奏和背景配置可通过以下命令检查：
+
+```bash
+node scripts/verify-game.mjs
+```
+
 ## 手工创建项目
 
 1. 新建一个 SPX 游戏项目。

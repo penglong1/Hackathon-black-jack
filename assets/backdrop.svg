@@ -1,14 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360">
-  <defs>
-    <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
-      <rect width="12" height="12" fill="#172018"/>
-      <path d="M12 0H0V12" fill="none" stroke="#314035" stroke-width="0.5" opacity="0.55"/>
-    </pattern>
-  </defs>
-  <rect width="480" height="360" fill="#101510"/>
-  <rect x="120" width="240" height="360" fill="url(#grid)"/>
-  <path d="M120 0v360M360 0v360" stroke="#d4ad43" stroke-width="2" opacity="0.55"/>
-  <path d="M132 18h36M138 12v12M162 12v12" stroke="#e35e49" stroke-width="2" opacity="0.75"/>
+  <rect width="480" height="360" fill="#101511"/>
+  <rect x="120" width="240" height="360" fill="#1b281e"/>
+  <path d="M121 68c48-24 93-11 126 13 36 26 71 25 112 2v76c-41 22-83 20-119-3-34-22-72-25-119-2z" fill="#223126"/>
+  <path d="M121 236c39-20 72-15 101 5 43 29 89 30 137 4v114H121z" fill="#18231b"/>
+  <path d="M120 0v360M360 0v360" stroke="#d4ad43" stroke-width="2" opacity="0.7"/>
+  <path d="M126 46h54M300 46h54" stroke="#334b39" stroke-width="2" stroke-dasharray="10 8" opacity="0.75"/>
+  <path d="M132 18h36M138 12v12M162 12v12" stroke="#e35e49" stroke-width="2" opacity="0.85"/>
   <text x="132" y="34" fill="#d7ddd5" font-family="monospace" font-size="8">ENEMY ENTRY</text>
-  <text x="240" y="352" fill="#849086" font-family="monospace" font-size="7" text-anchor="middle">GRID ARMOR · 20 × 30</text>
+  <text x="240" y="352" fill="#93a096" font-family="monospace" font-size="7" text-anchor="middle">GRID ARMOR · DEFEND THE BASE</text>
 </svg>
