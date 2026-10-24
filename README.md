@@ -34,7 +34,24 @@ Crate.spx         可摧毁木箱模板
 assets/           舞台背景与角色造型 SVG
 ```
 
-## 在 XBuilder 中创建项目
+## 直接导入 XBuilder
+
+仓库根目录中的 `TANK-black-jack.xbp` 是可直接导入的 XBuilder 项目文件：
+
+1. 打开现有的 `TANK-black-jack` 项目。
+2. 鼠标移到左上角的文件图标。
+3. 选择“导入项目文件...”，并确认覆盖当前项目内容。
+4. 选择 `TANK-black-jack.xbp`，导入完成后点击运行。
+
+导入前如需保留当前内容，请先在同一菜单中选择“导出项目文件”。
+
+修改源码或素材后，可在仓库目录运行以下命令重新生成项目包：
+
+```bash
+node scripts/build-xbp.mjs
+```
+
+## 手工创建项目
 
 1. 新建一个 SPX 游戏项目。
 2. 将舞台背景设为 `assets/backdrop.svg`。
