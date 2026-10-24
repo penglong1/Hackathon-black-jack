@@ -80,6 +80,8 @@
       wave: 1,
       spawnTimer: 350,
       spawnInterval: 2200,
+      itemDropTimer: 30000,
+      itemDropInterval: 30000,
       maxEnemies: 4,
       player: {
         x: 9,
@@ -214,23 +216,44 @@
   }
 
   function updateBullets(delta) {
-    for (let index = state.bullets.length - 1; index >= 0; index -= 1) {
-      const bullet = state.bullets[index];
+    state.bullets.forEach((bullet) => {
       bullet.moveTimer -= delta;
-      if (bullet.moveTimer > 0) continue;
+      if (bullet.moveTimer > 0) return;
       bullet.moveTimer += 52;
-
-      if (resolveBulletImpact(bullet)) {
-        state.bullets.splice(index, 1);
-        continue;
-      }
 
       const vector = DIRECTIONS[bullet.dir];
       bullet.x += vector.x;
       bullet.y += vector.y;
-      if (!inBounds(bullet.x, bullet.y) || resolveBulletImpact(bullet)) {
-        state.bullets.splice(index, 1);
+    });
+
+    state.bullets = state.bullets.filter((bullet) => inBounds(bullet.x, bullet.y));
+    resolveBulletCollisions();
+
+    for (let index = state.bullets.length - 1; index >= 0; index -= 1) {
+      if (resolveBulletImpact(state.bullets[index])) state.bullets.splice(index, 1);
+    }
+  }
+
+  function resolveBulletCollisions() {
+    const cancelled = new Set();
+    for (let first = 0; first < state.bullets.length; first += 1) {
+      const bulletA = state.bullets[first];
+      if (cancelled.has(first)) continue;
+      for (let second = first + 1; second < state.bullets.length; second += 1) {
+        const bulletB = state.bullets[second];
+        if (cancelled.has(second)) continue;
+        if (bulletA.owner === bulletB.owner) continue;
+        if (bulletA.x !== bulletB.x || bulletA.y !== bulletB.y) continue;
+
+        cancelled.add(first);
+        cancelled.add(second);
+        sparkAt(bulletA.x, bulletA.y);
+        playTone(300, 0.04, "square", 0.035);
+        break;
       }
+    }
+    if (cancelled.size) {
+      state.bullets = state.bullets.filter((_, index) => !cancelled.has(index));
     }
   }
 
@@ -269,7 +292,13 @@
     state.score += 20;
     explosionAt(crate.x, crate.y, "#e2a65a");
     if (crate.drop) {
-      state.items.push({ x: crate.x, y: crate.y, type: crate.drop, pulse: 0 });
+      state.items.push({
+        x: crate.x,
+        y: crate.y,
+        type: crate.drop,
+        pulse: 0,
+        expiresAt: state.elapsed + 10000,
+      });
       setStatus(crate.drop === "mine" ? "障碍内发现地雷" : "障碍内发现补给");
     }
     updateHud();
@@ -340,6 +369,29 @@
       if (collector === "player") hitPlayer();
       playTone(70, 0.2, "square", 0.1);
     }
+    updateHud();
+  }
+
+  function dropRandomItem() {
+    const candidates = [];
+    for (let y = 1; y < ROWS - 2; y += 1) {
+      for (let x = 1; x < COLS - 1; x += 1) {
+        if (isBlocked(x, y) || state.items.some((item) => item.x === x && item.y === y)) continue;
+        candidates.push({ x, y });
+      }
+    }
+    if (!candidates.length) return;
+
+    const location = candidates[Math.floor(Math.random() * candidates.length)];
+    const types = ["shield", "laser", "mine"];
+    const type = types[Math.floor(Math.random() * types.length)];
+    state.items.push({
+      ...location,
+      type,
+      pulse: 0,
+      expiresAt: state.elapsed + 10000,
+    });
+    setStatus(type === "mine" ? "侦测到地雷补给" : "战场补给已投放", 1800);
     updateHud();
   }
 
@@ -435,7 +487,9 @@
   }
 
   function chooseVisibleTarget(enemy) {
-    const targets = [state.player, state.base];
+    // The base is always the strategic target. The player can intercept the
+    // incoming shot by occupying the same firing lane.
+    const targets = [state.base, state.player];
     for (const target of targets) {
       if ((enemy.x === target.x || enemy.y === target.y) && clearLineBetween(enemy.x, enemy.y, target.x, target.y)) {
         return { target, direction: directionBetween(enemy.x, enemy.y, target.x, target.y) };
@@ -550,6 +604,12 @@
     if (state.running) {
       updateBullets(delta);
       updateEnemies(delta);
+      state.itemDropTimer -= delta;
+      if (state.itemDropTimer <= 0) {
+        state.itemDropTimer += state.itemDropInterval;
+        dropRandomItem();
+      }
+      state.items = state.items.filter((item) => item.expiresAt > state.elapsed);
       state.items.forEach((item) => { item.pulse += delta; });
     }
     updateEffects();
@@ -694,7 +754,9 @@
   function drawItem(item) {
     const center = cellCenter(item.x, item.y);
     const pulse = 1 + Math.sin(item.pulse / 130) * 0.08;
+    const remaining = item.expiresAt - state.elapsed;
     context.save();
+    context.globalAlpha = remaining < 3000 && Math.floor(state.elapsed / 140) % 2 === 0 ? 0.28 : 1;
     context.translate(center.x, center.y);
     context.scale(pulse, pulse);
 
