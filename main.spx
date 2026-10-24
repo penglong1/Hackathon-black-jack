@@ -32,12 +32,12 @@ var (
 	obstacleSpawnRow int
 )
 
-func gridToX(col int) int {
-	return -114 + col*cellSize
+func gridToX(col int) float64 {
+	return float64(-114 + col*cellSize)
 }
 
-func gridToY(row int) int {
-	return 174 - row*cellSize
+func gridToY(row int) float64 {
+	return float64(174 - row*cellSize)
 }
 
 func insideGrid(col, row int) bool {
@@ -150,9 +150,9 @@ func dropRandomItem() {
 	if !gameRunning {
 		return
 	}
-	itemSpawnCol = rand(2, 17)
-	itemSpawnRow = rand(5, 24)
-	itemSpawnType = rand(1, 3)
+	itemSpawnCol = int(rand(2, 17))
+	itemSpawnRow = int(rand(5, 24))
+	itemSpawnType = int(rand(1, 3))
 	Item.clone
 }
 

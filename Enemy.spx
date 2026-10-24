@@ -81,7 +81,7 @@ func moveOne() {
 	if !insideGrid(gridCol, gridRow) {
 		gridCol = lastCol
 		gridRow = lastRow
-		direction = rand(0, 3)
+		direction = int(rand(0, 3))
 		straightSteps = 2
 		return
 	}
@@ -135,7 +135,7 @@ onTouchStart ["Steel", "Crate", "Enemy"], sprite => {
 		gridCol = lastCol
 		gridRow = lastRow
 		setXYpos gridToX(gridCol), gridToY(gridRow)
-		direction = rand(0, 3)
+		direction = int(rand(0, 3))
 		straightSteps = 2
 	}
 }
