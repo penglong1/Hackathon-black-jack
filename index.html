@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="一款以 20 x 30 网格为战场的基地防守坦克游戏。"
+    />
+    <title>Grid Armor</title>
+    <link rel="icon" href="assets/tank-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Grid Armor 首页">
+          <img src="assets/tank-mark.svg" alt="" width="40" height="40" />
+          <span>
+            <strong>GRID ARMOR</strong>
+            <small>BASE DEFENSE / 20 × 30</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <button id="mute-button" class="icon-button" type="button" title="声音开关" aria-label="声音开关">
+            <span aria-hidden="true">♪</span>
+          </button>
+          <button id="restart-button" class="icon-button" type="button" title="重新开始" aria-label="重新开始">
+            <span aria-hidden="true">↻</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="hud" aria-label="战斗状态">
+        <div class="hud-item hud-score">
+          <span>得分</span>
+          <strong id="score-value">000000</strong>
+        </div>
+        <div class="hud-item">
+          <span>战车</span>
+          <strong id="player-life">3</strong>
+        </div>
+        <div class="hud-item">
+          <span>基地</span>
+          <strong id="base-health">3</strong>
+        </div>
+        <div class="hud-item">
+          <span>波次</span>
+          <strong id="wave-value">1</strong>
+        </div>
+      </section>
+
+      <section class="battle-layout">
+        <div class="board-shell">
+          <div class="canvas-wrap">
+            <canvas
+              id="game-canvas"
+              width="480"
+              height="720"
+              tabindex="0"
+              aria-label="坦克大战游戏战场"
+            ></canvas>
+
+            <div id="game-overlay" class="game-overlay" hidden>
+              <div class="overlay-content" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+                <span class="overlay-code" id="overlay-code">BASE LOST</span>
+                <h1 id="overlay-title">防线失守</h1>
+                <p id="overlay-summary">基地已被敌军摧毁</p>
+                <button id="overlay-restart" class="command-button" type="button">
+                  <span aria-hidden="true">↻</span>
+                  重新开始
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="board-coordinate" aria-hidden="true">
+            <span>A01</span>
+            <span>SECTOR 20×30</span>
+            <span>T30</span>
+          </div>
+        </div>
+
+        <aside class="side-panel" aria-label="装备与控制">
+          <section class="status-section">
+            <div class="section-heading">
+              <span>作战状态</span>
+              <i id="status-dot" aria-hidden="true"></i>
+            </div>
+            <strong id="status-text" class="status-text" aria-live="polite">防线稳定</strong>
+            <div class="enemy-meter">
+              <span>场上敌军</span>
+              <strong id="enemy-count">0</strong>
+            </div>
+          </section>
+
+          <section class="equipment-section">
+            <div class="section-heading"><span>装备</span></div>
+            <div class="equipment-row">
+              <span class="equipment-icon shield-icon" aria-hidden="true"></span>
+              <span>保护罩</span>
+              <strong id="shield-count">0</strong>
+            </div>
+            <div class="equipment-row">
+              <span class="equipment-icon laser-icon" aria-hidden="true"></span>
+              <span>镭射炮</span>
+              <strong id="laser-count">0</strong>
+            </div>
+          </section>
+
+          <section class="controls-section" aria-label="触控操作">
+            <div class="section-heading"><span>战车控制</span></div>
+            <div class="controls-grid">
+              <div class="d-pad" aria-label="方向控制">
+                <button type="button" data-action="up" aria-label="向上移动" title="向上移动">↑</button>
+                <button type="button" data-action="left" aria-label="向左移动" title="向左移动">←</button>
+                <span aria-hidden="true"></span>
+                <button type="button" data-action="right" aria-label="向右移动" title="向右移动">→</button>
+                <button type="button" data-action="down" aria-label="向下移动" title="向下移动">↓</button>
+              </div>
+              <button class="attack-button" type="button" data-action="attack" aria-label="攻击" title="攻击">
+                <span aria-hidden="true"></span>
+                <b>X</b>
+              </button>
+            </div>
+          </section>
+
+          <section class="legend-section" aria-label="战场图例">
+            <div class="section-heading"><span>补给识别</span></div>
+            <div class="legend-grid">
+              <span><i class="legend-shield"></i>护盾</span>
+              <span><i class="legend-laser"></i>镭射</span>
+              <span><i class="legend-mine"></i>地雷</span>
+            </div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>

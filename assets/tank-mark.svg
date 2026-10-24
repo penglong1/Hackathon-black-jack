@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Grid Armor tank mark">
+  <rect width="64" height="64" rx="8" fill="#202620"/>
+  <path d="M15 16h8v35h-8zM41 16h8v35h-8z" fill="#69756a"/>
+  <path d="M23 21h18v25H23z" fill="#f3c849"/>
+  <path d="M27 16h10v19H27z" fill="#fff19b"/>
+  <path d="M30 5h4v19h-4z" fill="#f3c849"/>
+  <path d="M18 21h3v5h-3zm0 9h3v5h-3zm0 9h3v5h-3zm25-18h3v5h-3zm0 9h3v5h-3zm0 9h3v5h-3z" fill="#111612"/>
+  <path d="M23 46h18l-4 7H27z" fill="#c49e38"/>
+</svg>
