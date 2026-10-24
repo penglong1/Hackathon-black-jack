@@ -1,24 +1,52 @@
-# Grid Armor
+# Grid Armor 坦克大战
 
-A compact, zero-dependency 2D tank defense game built for GitHub Pages.
+一个无需安装依赖、可直接部署到 GitHub Pages 的 2D 坦克防守小游戏。
 
-## Gameplay
+## 游戏玩法
 
-- The arena is a fixed 20 by 30 grid.
-- Arrow keys move the player exactly one cell.
-- `X` fires the current weapon.
-- Enemy tanks enter from the northwest corner and attack both the player and base.
-- Breaking wooden obstacles may reveal a three-hit shield, a line-clearing laser charge, or a mine.
-- The match ends when the player tank or base is destroyed.
+- 战场固定为 20×30 网格。
+- 方向键控制我方坦克，每次移动一格。
+- 按 `X` 键发射炮弹。
+- 敌方坦克从左上方入口出现，会自动移动并攻击我方坦克和基地。
+- 击毁木质障碍物后，可能获得保护罩、镭射炮或地雷。
+- 保护罩可以抵挡 3 次攻击。
+- 镭射炮可以清除射线方向上的所有敌人。
+- 踩到地雷会损失 1 点生命值。
+- 我方坦克或基地被摧毁后，游戏失败，可以点击重新开始。
 
-## Run locally
+## 操作方式
+
+### 键盘
+
+| 按键 | 操作 |
+| --- | --- |
+| ↑ ↓ ← → | 移动坦克 |
+| `X` | 攻击 |
+
+### 移动端
+
+使用页面中的方向按钮移动，点击黄色圆形按钮攻击。
+
+## 本地运行
+
+在项目目录执行：
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Open `http://localhost:4173`.
+然后打开：
 
-## GitHub Pages
+```text
+http://localhost:4173
+```
 
-Push to `main`. The included workflow publishes the repository root to GitHub Pages.
+## GitHub Pages 部署
+
+项目已包含 GitHub Actions 部署配置。推送到 `main` 分支后，GitHub 会自动发布项目根目录。
+
+部署完成后，可以通过以下地址访问：
+
+```text
+https://penglong1.github.io/Hackathon-black-jack/
+```
