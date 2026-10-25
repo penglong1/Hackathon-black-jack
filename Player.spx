@@ -22,8 +22,8 @@ func faceDirection() {
 }
 
 func resetPlayer() {
-	gridCol = 9
-	gridRow = 27
+	gridCol = playerCol
+	gridRow = playerRow
 	direction = 0
 	lastCol = gridCol
 	lastRow = gridRow
@@ -33,31 +33,26 @@ func resetPlayer() {
 	show
 }
 
-func moveOne(nextDirection int) {
+func aimLeft() {
 	if !gameRunning {
 		return
 	}
-	direction = nextDirection
-	faceDirection
-	lastCol = gridCol
-	lastRow = gridRow
-
-	if direction == 0 {
-		gridRow--
-	} else if direction == 1 {
-		gridCol++
-	} else if direction == 2 {
-		gridRow++
-	} else {
-		gridCol--
+	direction--
+	if direction < 0 {
+		direction = 3
 	}
+	faceDirection
+}
 
-	if !insideGrid(gridCol, gridRow) {
-		gridCol = lastCol
-		gridRow = lastRow
+func aimRight() {
+	if !gameRunning {
 		return
 	}
-	setXYpos gridToX(gridCol), gridToY(gridRow)
+	direction++
+	if direction > 3 {
+		direction = 0
+	}
+	faceDirection
 }
 
 func attack() {
@@ -81,30 +76,35 @@ onStart => {
 	resetPlayer
 }
 
-onKey KeyUp, => {
-	moveOne 0
-}
-
-onKey KeyRight, => {
-	moveOne 1
-}
-
-onKey KeyDown, => {
-	moveOne 2
+onStart => {
+	forever => {
+		wait attackCooldown
+		attack
+	}
 }
 
 onKey KeyLeft, => {
-	moveOne 3
+	aimLeft
+}
+
+onKey KeyRight, => {
+	aimRight
+}
+
+onKey KeyUp, => {
+	attack
+}
+
+onKey KeyDown, => {
+	attack
 }
 
 onKey KeyX, => {
 	attack
 }
 
-onTouchStart ["Steel", "Crate", "Enemy", "Base"], sprite => {
-	gridCol = lastCol
-	gridRow = lastRow
-	setXYpos gridToX(gridCol), gridToY(gridRow)
+onTouchStart "Enemy", sprite => {
+	damagePlayer
 }
 
 onMsg "reset-game", => {
@@ -116,7 +116,7 @@ onMsg "shield-hit", => {
 }
 
 onMsg "player-damaged", => {
-	say "生命 -1", 0.5
+	say "主战坦克受击！生命：" + playerHP, 0.5
 }
 
 onMsg "game-over", => {

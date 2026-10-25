@@ -28,8 +28,8 @@ func faceDirection() {
 }
 
 func chooseDirection() int {
-	deltaCol := baseCol - gridCol
-	deltaRow := baseRow - gridRow
+	deltaCol := playerCol - gridCol
+	deltaRow := playerRow - gridRow
 
 	if straightSteps >= 2 && rand(1, 100) <= 65 {
 		if direction == 0 || direction == 2 {
@@ -141,17 +141,6 @@ onTouchStart ["Steel", "Crate", "Enemy"], sprite => {
 }
 
 onTouchStart "Player", sprite => {
-	if isClone {
-		gridCol = lastCol
-		gridRow = lastRow
-		setXYpos gridToX(gridCol), gridToY(gridRow)
-		direction = chooseDirection()
-		faceDirection
-		shoot
-	}
-}
-
-onTouchStart "Base", sprite => {
 	if isClone {
 		gridCol = lastCol
 		gridRow = lastRow

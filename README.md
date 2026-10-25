@@ -1,4 +1,4 @@
-# Grid Armor：SPX 坦克大战
+# Panzer：SPX 坦克守城
 
 这是使用 **XGo + SPX** 编写的 2D 网格坦克防守游戏源码，面向 GoPlus XBuilder。
 
@@ -7,27 +7,26 @@
 ## 游戏规则
 
 - 战场逻辑尺寸为 20×30 格，每格对应 12 个舞台坐标单位。
-- 方向键控制玩家坦克，每次移动一格。
-- 按 `X` 发射炮弹。
-- 敌军从左上方生成，以基地为主要目标自动移动和攻击。
-- 玩家需要拦截敌军并保护基地。
+- 玩家只使用一辆主战坦克，不再有独立炮台或基地角色。
+- 主战坦克固定在防守位置，左/右方向键调整炮口方向。
+- 默认机炮自动开火，`X`、上方向键或下方向键可以手动触发一次攻击。
+- 敌军从地图边界生成，以主战坦克为唯一目标自动推进。
 - 敌我炮弹相撞时会互相抵消。
 - 每 30 秒随机投放保护罩、镭射炮或地雷。
 - 道具 10 秒未拾取会自动消失，最后 3 秒会闪烁。
 - 保护罩可以抵挡 3 次攻击。
 - 镭射炮会消灭射线方向上的所有敌军。
 - 踩中地雷损失 1 点生命值。
-- 基地或玩家生命归零后游戏结束，点击舞台或按 `Enter` 重新开始。
+- 主战坦克生命归零后游戏结束，点击舞台或按 `Enter` 重新开始。
 
 ## 源码结构
 
 ```text
 main.spx          舞台：全局状态、地图、计分、波次、生成和重开
-Player.spx        玩家：网格移动、普通炮弹和镭射炮
-Base.spx          基地：位置、受击和失败提示
-Enemy.spx         敌军：克隆、自动移动、基地优先策略和攻击
+Player.spx        玩家主战坦克：炮口方向、自动开火和手动攻击
+Enemy.spx         敌军：克隆、自动移动、主战坦克追踪和攻击
 PlayerBullet.spx  玩家炮弹：移动、碰撞、消灭敌军和木箱
-EnemyBullet.spx   敌军炮弹：移动、攻击玩家和基地
+EnemyBullet.spx   敌军炮弹：移动、攻击主战坦克
 Item.spx          道具：随机类型、拾取效果和 10 秒生命周期
 Steel.spx         不可摧毁障碍模板
 Crate.spx         可摧毁木箱模板
@@ -68,7 +67,6 @@ node scripts/verify-game.mjs
 | Sprite 名称 | 代码文件 | 造型文件 | 初始状态 |
 | --- | --- | --- | --- |
 | `Player` | `Player.spx` | `assets/player.svg` | 显示 |
-| `Base` | `Base.spx` | `assets/base.svg` | 显示 |
 | `Enemy` | `Enemy.spx` | `assets/enemy.svg` | 隐藏，作为克隆模板 |
 | `PlayerBullet` | `PlayerBullet.spx` | `assets/player-bullet.svg` | 隐藏，作为克隆模板 |
 | `EnemyBullet` | `EnemyBullet.spx` | `assets/enemy-bullet.svg` | 隐藏，作为克隆模板 |
@@ -92,7 +90,6 @@ mine   -> assets/item-mine.svg
 score
 wave
 playerHP
-baseHP
 shieldHits
 laserCharges
 enemyCount
@@ -105,3 +102,4 @@ enemyCount
 - 重开时使用 `broadcastAndWait "reset-game"` 清理全部克隆，再重建地图。
 - 炮弹通过 `onTouchStart` 处理碰撞；敌我炮弹接触时双方同时销毁。
 - 敌军本地规则负责高频移动，不依赖远程 AI 请求，确保操作响应稳定。
+- 当前版本已移除广告逻辑，随机和重开均不要求观看广告。

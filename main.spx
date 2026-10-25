@@ -2,8 +2,8 @@ const (
 	gridCols = 20
 	gridRows = 30
 	cellSize = 12
-	baseCol = 10
-	baseRow = 29
+	playerCol = 10
+	playerRow = 27
 )
 
 var (
@@ -15,10 +15,10 @@ var (
 	enemyCount int
 	maxEnemies int
 	playerHP int
-	baseHP int
 	shieldHits int
 	laserCharges int
 	laserDirection int
+	stage int
 
 	enemySpawnCol int
 	enemySpawnRow int
@@ -30,6 +30,7 @@ var (
 	itemSpawnType int
 	obstacleSpawnCol int
 	obstacleSpawnRow int
+	enemySpawnLane int
 )
 
 func gridToX(col int) float64 {
@@ -117,11 +118,11 @@ func resetGame() {
 
 	score = 0
 	wave = 1
+	stage = 1
 	kills = 0
 	enemyCount = 0
-	maxEnemies = 4
-	playerHP = 3
-	baseHP = 3
+	maxEnemies = 6
+	playerHP = 100
 	shieldHits = 0
 	laserCharges = 0
 	gameOverReason = ""
@@ -135,8 +136,13 @@ func spawnEnemy() {
 	if !gameRunning || enemyCount >= maxEnemies {
 		return
 	}
-	enemySpawnCol = 1
-	enemySpawnRow = 1
+	if stage == 1 {
+		enemySpawnLane = 0
+	} else {
+		enemySpawnLane = int(rand(0, 1))
+	}
+	enemySpawnCol = 2 + enemySpawnLane*15
+	enemySpawnRow = 0
 	enemyCount++
 	Enemy.clone
 }
@@ -211,17 +217,6 @@ func damagePlayer() {
 	}
 }
 
-func damageBase() {
-	if !gameRunning {
-		return
-	}
-	baseHP--
-	broadcast "base-damaged"
-	if baseHP <= 0 {
-		finishGame "基地已被攻破"
-	}
-}
-
 func finishGame(reason string) {
 	gameRunning = false
 	gameOverReason = reason
@@ -261,5 +256,6 @@ onClick => {
 onMsg "game-over", => {
 	println "游戏失败：" + gameOverReason
 	println "得分：", score
+	println "主战坦克生命值：", playerHP
 	println "点击舞台或按 Enter 重新开始"
 }

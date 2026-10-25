@@ -59,13 +59,6 @@ onTouchStart "Player", sprite => {
 	}
 }
 
-onTouchStart "Base", sprite => {
-	if isClone {
-		damageBase
-		die
-	}
-}
-
 onTouchStart "PlayerBullet", sprite => {
 	if isClone {
 		sprite.die

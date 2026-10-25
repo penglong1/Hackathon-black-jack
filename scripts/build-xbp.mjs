@@ -15,22 +15,12 @@ const sprites = [
   {
     name: 'Player',
     id: 'tank-player',
-    x: -6,
+    x: 6,
     y: -150,
     size: 0.25,
     visible: true,
     faceRight: 90,
     costumes: [{ name: 'player', source: 'player.svg', target: 'player.svg', width: 48, height: 48 }]
-  },
-  {
-    name: 'Base',
-    id: 'tank-base',
-    x: 6,
-    y: -174,
-    size: 0.25,
-    visible: true,
-    rotationStyle: 'none',
-    costumes: [{ name: 'base', source: 'base.svg', target: 'base.svg', width: 48, height: 48 }]
   },
   {
     name: 'Enemy',
@@ -111,8 +101,8 @@ try {
   writeJson(join(stagingDir, 'builder-meta.json'), {
     type: 'game',
     displayName: 'TANK-black-jack',
-    description: '20x30 网格坦克基地防守游戏',
-    instructions: '方向键移动，X 键攻击；保护基地并拦截来袭敌军。'
+    description: '20x30 网格主战坦克守城游戏',
+    instructions: '左右方向键调整炮口，默认机炮自动开火；X 键手动攻击。'
   })
 
   copyRequired(join(projectDir, 'main.spx'), join(stagingDir, 'main.spx'))

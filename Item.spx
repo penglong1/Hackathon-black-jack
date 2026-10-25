@@ -49,7 +49,7 @@ onTouchStart "Player", sprite => {
 	}
 }
 
-onTouchStart ["Steel", "Crate", "Base"], sprite => {
+onTouchStart ["Steel", "Crate"], sprite => {
 	if isClone {
 		die
 	}
