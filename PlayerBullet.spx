@@ -69,6 +69,8 @@ onTouchStart "Crate", sprite => {
 
 onTouchStart "Steel", sprite => {
 	if isClone {
+		sprite.die
+		score += 20
 		die
 	}
 }

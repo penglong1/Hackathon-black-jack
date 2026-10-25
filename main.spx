@@ -153,7 +153,7 @@ func spawnEnemy() {
 	enemySpawnConvoy = 0
 	enemySpawnSlot = convoy0NextSlot
 	enemySpawnCol = 2
-	enemySpawnRow = 0 - enemySpawnSlot*2
+	enemySpawnRow = 0 - enemySpawnSlot
 	convoy0NextSlot++
 	enemyCount++
 	Enemy.clone
@@ -264,8 +264,14 @@ onStart => {
 }
 
 onStart => {
+	wait 0.2
+	spawnEnemy
+	wait 0.35
+	spawnEnemy
+	wait 0.35
+	spawnEnemy
 	forever => {
-		wait 0.8
+		wait 0.7
 		spawnEnemy
 	}
 }
