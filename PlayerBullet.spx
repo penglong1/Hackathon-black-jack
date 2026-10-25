@@ -52,13 +52,6 @@ onCloned data => {
 	}
 }
 
-onTouchStart "Enemy", sprite => {
-	if isClone {
-		sprite.takeHit
-		die
-	}
-}
-
 onTouchStart "EnemyBullet", sprite => {
 	if isClone {
 		sprite.die

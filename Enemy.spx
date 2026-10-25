@@ -161,6 +161,13 @@ onTouchStart "Player", sprite => {
 	}
 }
 
+onTouchStart "PlayerBullet", sprite => {
+	if isClone {
+		takeHit
+		sprite.die
+	}
+}
+
 onTouchStart "Base", sprite => {
 	if isClone {
 		gridCol = lastCol
@@ -178,8 +185,8 @@ onMsg "laser-fired", => {
 	}
 }
 
-onMsg "convoy-leader-down", data => {
-	if isClone && data == convoyId {
+onMsg (message, data) => {
+	if message == "convoy-leader-down" && isClone && data == convoyId {
 		refreshLeader
 	}
 }

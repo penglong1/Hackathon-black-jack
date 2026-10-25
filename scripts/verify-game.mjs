@@ -38,9 +38,10 @@ assert.match(read('main.spx'), /for itemCellBlocked\(itemSpawnCol, itemSpawnRow\
 assert.match(read('main.spx'), /convoyLeaderDown\(convoyId, slot int\)/)
 assert.match(read('main.spx'), /enemySpawnSlot = convoy0NextSlot/)
 assert.match(read('Enemy.spx'), /func takeHit\(\)/)
-assert.match(read('Enemy.spx'), /onMsg "convoy-leader-down", data/)
+assert.match(read('Enemy.spx'), /onMsg \(message, data\)/)
 assert.match(read('Enemy.spx'), /if isLeader \{\n\t\tconvoyLeaderDown convoyId, convoySlot/)
-assert.match(read('PlayerBullet.spx'), /sprite.takeHit/)
+assert.match(read('Enemy.spx'), /onTouchStart "PlayerBullet", sprite/)
+assert.doesNotMatch(read('PlayerBullet.spx'), /sprite\.takeHit/)
 assert.doesNotMatch(read('Enemy.spx'), /rand\(1, 100\) <= 65/)
 for (const source of ['PlayerBullet.spx', 'EnemyBullet.spx', 'Item.spx']) {
   assert.match(read(source), /onMsg "game-over"/)
