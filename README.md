@@ -1,4 +1,4 @@
-# Grid Armor：SPX 坦克大战
+#  坦克大战
 
 这是使用 **XGo + SPX** 编写的 2D 网格坦克防守游戏，可以使用 XGo 直接运行，也可以导入 GoPlus XBuilder。
 
