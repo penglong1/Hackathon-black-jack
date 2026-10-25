@@ -2,7 +2,6 @@
 
 这是使用 **XGo + SPX** 编写的 2D 网格坦克防守游戏源码，面向 GoPlus XBuilder。
 
-旧版 HTML、CSS、JavaScript 游戏及 GitHub Pages 工作流已经移除，本仓库只保留 SPX 项目源码和角色造型资源。
 
 ## 游戏规则
 
