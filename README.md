@@ -34,7 +34,7 @@ Crate.spx         可摧毁木箱模板
 assets/           舞台背景与角色造型 SVG
 ```
 
-## 使用 XGo 运行
+## 本地运行
 
 安装 XGo 后，还需要安装与项目依赖一致的 SPX v3.3.0 图形运行环境：
 
@@ -43,17 +43,18 @@ git clone --branch v3.3.0 --depth 1 https://github.com/goplus/spx.git
 cd spx
 make setup
 make doctor
+export PATH="$(go env GOPATH)/bin:$PATH"
 ```
 
-然后回到游戏项目，下载 Go 模块并运行：
+然后回到游戏项目，下载 Go 模块并通过 SPX 主机运行：
 
 ```bash
 cd "/Users/pidan/Documents/New project/Hackathon-black-jack"
 go mod download
-xgo run .
+spx run --path .
 ```
 
-游戏代码位于根目录的 `.spx` 文件中，SPX 框架依赖声明在 `go.mod`，完整的项目配置和图片资源位于 `assets/`。首次运行会下载 `github.com/goplus/spx/v3` 及相关依赖。
+游戏代码位于根目录的 `.spx` 文件中，SPX 框架依赖声明在 `go.mod`，完整的项目配置和图片资源位于 `assets/`。`xgo` 负责编译源码，`spx` 负责启动图形运行时。首次运行会下载 `github.com/goplus/spx/v3` 及相关依赖。
 
 ## 导入 XBuilder
 
@@ -66,7 +67,7 @@ xgo run .
 
 导入前如需保留当前内容，请先在同一菜单中选择“导出项目文件”。
 
-`xgo run .` 不需要 Node.js。只有修改源码或素材后需要重新生成 XBuilder 的 `.xbp` 文件时，才运行：
+本地运行不需要 Node.js。只有修改源码或素材后需要重新生成 XBuilder 的 `.xbp` 文件时，才运行：
 
 ```bash
 node scripts/build-xbp.mjs
