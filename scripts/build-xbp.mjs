@@ -107,19 +107,9 @@ function copyRequired(source, target) {
   cpSync(source, target)
 }
 
-try {
-  writeJson(join(stagingDir, 'builder-meta.json'), {
-    type: 'game',
-    displayName: 'TANK-black-jack',
-    description: '20x30 网格坦克基地防守游戏',
-    instructions: '方向键移动，X 键攻击；保护基地并拦截来袭敌军。'
-  })
-
-  copyRequired(join(projectDir, 'main.spx'), join(stagingDir, 'main.spx'))
-  copyRequired(join(projectDir, 'assets', 'backdrop.svg'), join(stagingDir, 'assets', 'backdrop.svg'))
-
+function writeRuntimeProject(targetDir) {
   const spriteNames = sprites.map((sprite) => sprite.name)
-  writeJson(join(stagingDir, 'assets', 'index.json'), {
+  writeJson(join(targetDir, 'assets', 'index.json'), {
     backdrops: [
       {
         x: 240,
@@ -149,8 +139,7 @@ try {
   })
 
   for (const sprite of sprites) {
-    copyRequired(join(projectDir, `${sprite.name}.spx`), join(stagingDir, `${sprite.name}.spx`))
-    const spriteAssetDir = join(stagingDir, 'assets', 'sprites', sprite.name)
+    const spriteAssetDir = join(targetDir, 'assets', 'sprites', sprite.name)
     const costumes = sprite.costumes.map((costume, index) => {
       copyRequired(
         join(projectDir, 'assets', costume.source),
@@ -188,6 +177,26 @@ try {
       builder_id: sprite.id
     })
   }
+}
+
+try {
+  // Keep a complete SPX project in the repository so `xgo run .` works
+  // without extracting the generated XBuilder package first.
+  writeRuntimeProject(projectDir)
+
+  writeJson(join(stagingDir, 'builder-meta.json'), {
+    type: 'game',
+    displayName: 'TANK-black-jack',
+    description: '20x30 网格坦克基地防守游戏',
+    instructions: '方向键移动，X 键攻击；保护基地并拦截来袭敌军。'
+  })
+
+  copyRequired(join(projectDir, 'main.spx'), join(stagingDir, 'main.spx'))
+  copyRequired(join(projectDir, 'assets', 'backdrop.svg'), join(stagingDir, 'assets', 'backdrop.svg'))
+  for (const sprite of sprites) {
+    copyRequired(join(projectDir, `${sprite.name}.spx`), join(stagingDir, `${sprite.name}.spx`))
+  }
+  writeRuntimeProject(stagingDir)
 
   if (existsSync(outputPath)) rmSync(outputPath)
   execFileSync('zip', ['-qr', outputPath, '.'], { cwd: stagingDir })

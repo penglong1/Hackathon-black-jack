@@ -1,6 +1,6 @@
 # Grid Armor：SPX 坦克大战
 
-这是使用 **XGo + SPX** 编写的 2D 网格坦克防守游戏源码，面向 GoPlus XBuilder。
+这是使用 **XGo + SPX** 编写的 2D 网格坦克防守游戏，可以使用 XGo 直接运行，也可以导入 GoPlus XBuilder。
 
 旧版 HTML、CSS、JavaScript 游戏及 GitHub Pages 工作流已经移除，本仓库只保留 SPX 项目源码和角色造型资源。
 
@@ -34,7 +34,17 @@ Crate.spx         可摧毁木箱模板
 assets/           舞台背景与角色造型 SVG
 ```
 
-## 直接导入 XBuilder
+## 使用 XGo 运行
+
+安装 XGo 和 SPX 所需的运行环境后，在项目目录执行：
+
+```bash
+xgo run .
+```
+
+游戏代码位于根目录的 `.spx` 文件中，完整的 SPX 项目配置和图片资源位于 `assets/`。
+
+## 导入 XBuilder
 
 仓库根目录中的 `TANK-black-jack.xbp` 是可直接导入的 XBuilder 项目文件：
 
@@ -45,7 +55,7 @@ assets/           舞台背景与角色造型 SVG
 
 导入前如需保留当前内容，请先在同一菜单中选择“导出项目文件”。
 
-修改源码或素材后，可在仓库目录运行以下命令重新生成项目包：
+`xgo run .` 不需要 Node.js。只有修改源码或素材后需要重新生成 XBuilder 的 `.xbp` 文件时，才运行：
 
 ```bash
 node scripts/build-xbp.mjs

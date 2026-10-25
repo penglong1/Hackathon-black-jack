@@ -1,0 +1,33 @@
+{
+  "heading": 0,
+  "x": 0,
+  "y": 0,
+  "size": 0.45,
+  "rotationStyle": "normal",
+  "physicsMode": "no",
+  "costumeIndex": 0,
+  "visible": false,
+  "isDraggable": false,
+  "collisionPivot": {
+    "x": 0,
+    "y": 0
+  },
+  "collisionShapeType": "none",
+  "collisionShapeParams": [],
+  "costumes": [
+    {
+      "x": 8,
+      "y": 8,
+      "faceRight": 90,
+      "bitmapResolution": 1,
+      "name": "enemy-bullet",
+      "path": "enemy-bullet.svg",
+      "builder_id": "tank-enemy-bullet-costume-1",
+      "imageWidth": 16,
+      "imageHeight": 16
+    }
+  ],
+  "fAnimations": {},
+  "animBindings": {},
+  "builder_id": "tank-enemy-bullet"
+}

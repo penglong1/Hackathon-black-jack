@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const projectDir = resolve(import.meta.dirname, '..')
@@ -33,6 +33,29 @@ assert.match(read('Player.spx'), /timer-lastAttackAt < attackCooldown/)
 assert.match(read('PlayerBullet.spx'), /wait 0\.13/)
 assert.match(read('EnemyBullet.spx'), /wait 0\.17/)
 assert.doesNotMatch(read('assets/backdrop.svg'), /id="grid"|patternUnits=/)
+assert.ok(existsSync(resolve(projectDir, 'assets/index.json')))
+const projectConfig = JSON.parse(read('assets/index.json'))
+assert.deepEqual(projectConfig.zorder, [
+  'Player',
+  'Base',
+  'Enemy',
+  'PlayerBullet',
+  'EnemyBullet',
+  'Steel',
+  'Crate',
+  'Item'
+])
+for (const sprite of projectConfig.zorder) {
+  const configPath = `assets/sprites/${sprite}/index.json`
+  assert.ok(existsSync(resolve(projectDir, configPath)), `missing ${configPath}`)
+  const config = JSON.parse(read(configPath))
+  for (const costume of config.costumes) {
+    assert.ok(
+      existsSync(resolve(projectDir, 'assets/sprites', sprite, costume.path)),
+      `missing costume ${sprite}/${costume.path}`
+    )
+  }
+}
 assert.match(read('main.spx'), /if !gameRunning \{\n\t\treturn\n\t\}\n\tif enemyCount/)
 assert.match(read('main.spx'), /for itemCellBlocked\(itemSpawnCol, itemSpawnRow\)/)
 for (const source of ['PlayerBullet.spx', 'EnemyBullet.spx', 'Item.spx']) {

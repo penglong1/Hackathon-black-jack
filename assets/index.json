@@ -1,0 +1,55 @@
+{
+  "backdrops": [
+    {
+      "x": 240,
+      "y": 180,
+      "bitmapResolution": 1,
+      "name": "battlefield",
+      "path": "backdrop.svg",
+      "builder_id": "tank-backdrop",
+      "imageWidth": 480,
+      "imageHeight": 360
+    }
+  ],
+  "backdropIndex": 0,
+  "map": {
+    "width": 480,
+    "height": 360,
+    "mode": "fillRatio"
+  },
+  "physics": false,
+  "layerSortMode": "",
+  "autoSetCollisionLayer": true,
+  "stretchMode": true,
+  "audioAttenuation": 0,
+  "audioMaxDistance": 768,
+  "run": {
+    "width": 480,
+    "height": 360
+  },
+  "camera": {
+    "on": ""
+  },
+  "zorder": [
+    "Player",
+    "Base",
+    "Enemy",
+    "PlayerBullet",
+    "EnemyBullet",
+    "Steel",
+    "Crate",
+    "Item"
+  ],
+  "builder_spriteOrder": [
+    "tank-player",
+    "tank-base",
+    "tank-enemy",
+    "tank-player-bullet",
+    "tank-enemy-bullet",
+    "tank-steel",
+    "tank-crate",
+    "tank-item"
+  ],
+  "builder_soundOrder": [],
+  "maxFPS": 60
+}

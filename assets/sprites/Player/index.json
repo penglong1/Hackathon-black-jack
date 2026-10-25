@@ -1,0 +1,33 @@
+{
+  "heading": 0,
+  "x": -6,
+  "y": -150,
+  "size": 0.25,
+  "rotationStyle": "normal",
+  "physicsMode": "no",
+  "costumeIndex": 0,
+  "visible": true,
+  "isDraggable": false,
+  "collisionPivot": {
+    "x": 0,
+    "y": 0
+  },
+  "collisionShapeType": "none",
+  "collisionShapeParams": [],
+  "costumes": [
+    {
+      "x": 24,
+      "y": 24,
+      "faceRight": 90,
+      "bitmapResolution": 1,
+      "name": "player",
+      "path": "player.svg",
+      "builder_id": "tank-player-costume-1",
+      "imageWidth": 48,
+      "imageHeight": 48
+    }
+  ],
+  "fAnimations": {},
+  "animBindings": {},
+  "builder_id": "tank-player"
+}

@@ -1,0 +1,33 @@
+{
+  "heading": 0,
+  "x": 0,
+  "y": 0,
+  "size": 0.25,
+  "rotationStyle": "none",
+  "physicsMode": "no",
+  "costumeIndex": 0,
+  "visible": false,
+  "isDraggable": false,
+  "collisionPivot": {
+    "x": 0,
+    "y": 0
+  },
+  "collisionShapeType": "none",
+  "collisionShapeParams": [],
+  "costumes": [
+    {
+      "x": 24,
+      "y": 24,
+      "faceRight": 0,
+      "bitmapResolution": 1,
+      "name": "crate",
+      "path": "crate.svg",
+      "builder_id": "tank-crate-costume-1",
+      "imageWidth": 48,
+      "imageHeight": 48
+    }
+  ],
+  "fAnimations": {},
+  "animBindings": {},
+  "builder_id": "tank-crate"
+}
