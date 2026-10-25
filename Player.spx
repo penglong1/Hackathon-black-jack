@@ -116,7 +116,7 @@ onMsg "shield-hit", => {
 }
 
 onMsg "player-damaged", => {
-	say "主战坦克受击！生命：" + playerHP, 0.5
+	say "主战坦克受击！", 0.5
 }
 
 onMsg "game-over", => {
