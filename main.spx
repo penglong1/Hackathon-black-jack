@@ -20,6 +20,13 @@ var (
 	laserCharges int
 	laserDirection int
 
+	convoySize int
+	convoy0NextSlot int
+	convoy1NextSlot int
+	convoy0LeaderSlot int
+	convoy1LeaderSlot int
+	enemySpawnConvoy int
+	enemySpawnSlot int
 	enemySpawnCol int
 	enemySpawnRow int
 	bulletSpawnCol int
@@ -119,9 +126,14 @@ func resetGame() {
 	wave = 1
 	kills = 0
 	enemyCount = 0
-	maxEnemies = 4
+	maxEnemies = 6
 	playerHP = 3
 	baseHP = 3
+	convoySize = 6
+	convoy0NextSlot = 0
+	convoy1NextSlot = 0
+	convoy0LeaderSlot = 0
+	convoy1LeaderSlot = 0
 	shieldHits = 0
 	laserCharges = 0
 	gameOverReason = ""
@@ -135,10 +147,29 @@ func spawnEnemy() {
 	if !gameRunning || enemyCount >= maxEnemies {
 		return
 	}
-	enemySpawnCol = 1
-	enemySpawnRow = 1
+	if convoy0NextSlot >= convoySize {
+		return
+	}
+	enemySpawnConvoy = 0
+	enemySpawnSlot = convoy0NextSlot
+	enemySpawnCol = 2
+	enemySpawnRow = 0 - enemySpawnSlot*2
+	convoy0NextSlot++
 	enemyCount++
 	Enemy.clone
+}
+
+func convoyLeaderDown(convoyId, slot int) {
+	if convoyId == 0 {
+		if convoy0LeaderSlot == slot {
+			convoy0LeaderSlot++
+		}
+	} else {
+		if convoy1LeaderSlot == slot {
+			convoy1LeaderSlot++
+		}
+	}
+	broadcast "convoy-leader-down", convoyId
 }
 
 func spawnPlayerShot(col, row, direction int) {
@@ -234,7 +265,7 @@ onStart => {
 
 onStart => {
 	forever => {
-		wait 2
+		wait 0.8
 		spawnEnemy
 	}
 }

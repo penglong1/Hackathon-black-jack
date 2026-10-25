@@ -6,6 +6,9 @@ var (
 	lastRow int
 	direction int
 	straightSteps int
+	convoyId int
+	convoySlot int
+	isLeader bool
 )
 
 func absInt(value int) int {
@@ -31,29 +34,32 @@ func chooseDirection() int {
 	deltaCol := baseCol - gridCol
 	deltaRow := baseRow - gridRow
 
-	if straightSteps >= 2 && rand(1, 100) <= 65 {
-		if direction == 0 || direction == 2 {
-			if deltaCol >= 0 {
-				return 1
-			}
-			return 3
-		}
-		if deltaRow >= 0 {
-			return 2
-		}
-		return 0
-	}
-
-	if absInt(deltaRow) >= absInt(deltaCol) {
-		if deltaRow >= 0 {
-			return 2
-		}
-		return 0
+	if deltaRow > 0 && absInt(deltaCol) <= 1 {
+		return 2
 	}
 	if deltaCol >= 0 {
 		return 1
 	}
 	return 3
+}
+
+func refreshLeader() {
+	if convoyId == 0 {
+		isLeader = convoySlot == convoy0LeaderSlot
+	} else {
+		isLeader = convoySlot == convoy1LeaderSlot
+	}
+}
+
+func takeHit() {
+	if !isClone || !gameRunning {
+		return
+	}
+	if isLeader {
+		convoyLeaderDown convoyId, convoySlot
+	}
+	enemyDestroyed
+	die
 }
 
 func moveOne() {
@@ -109,6 +115,9 @@ onStart => {
 
 onCloned data => {
 	isClone = true
+	convoyId = enemySpawnConvoy
+	convoySlot = enemySpawnSlot
+	refreshLeader
 	gridCol = enemySpawnCol
 	gridRow = enemySpawnRow
 	direction = 2
@@ -120,7 +129,7 @@ onCloned data => {
 	forever => {
 		if gameRunning {
 			moveOne
-			if rand(1, 100) <= 35 {
+			if isLeader && rand(1, 100) <= 35 {
 				shoot
 			}
 			wait 0.6
@@ -142,6 +151,7 @@ onTouchStart ["Steel", "Crate", "Enemy"], sprite => {
 
 onTouchStart "Player", sprite => {
 	if isClone {
+		damagePlayer
 		gridCol = lastCol
 		gridRow = lastRow
 		setXYpos gridToX(gridCol), gridToY(gridRow)
@@ -164,8 +174,13 @@ onTouchStart "Base", sprite => {
 
 onMsg "laser-fired", => {
 	if isClone && gameRunning && inLaserLine() {
-		enemyDestroyed
-		die
+		takeHit
+	}
+}
+
+onMsg "convoy-leader-down", data => {
+	if isClone && data == convoyId {
+		refreshLeader
 	}
 }
 
