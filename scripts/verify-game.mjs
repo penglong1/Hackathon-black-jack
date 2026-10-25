@@ -23,6 +23,7 @@ for (const direction of directions) {
 }
 
 const buildScript = read('scripts/build-xbp.mjs')
+assert.match(read('go.mod'), /github\.com\/goplus\/spx\/v3 v3\.3\.0 \/\/xgo:class/)
 for (const sprite of ['Player', 'Enemy', 'PlayerBullet', 'EnemyBullet']) {
   const block = buildScript.slice(buildScript.indexOf(`name: '${sprite}'`))
   assert.match(block.slice(0, 500), /faceRight: 90/)

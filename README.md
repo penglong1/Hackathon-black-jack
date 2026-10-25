@@ -36,13 +36,24 @@ assets/           舞台背景与角色造型 SVG
 
 ## 使用 XGo 运行
 
-安装 XGo 和 SPX 所需的运行环境后，在项目目录执行：
+安装 XGo 后，还需要安装与项目依赖一致的 SPX v3.3.0 图形运行环境：
 
 ```bash
+git clone --branch v3.3.0 --depth 1 https://github.com/goplus/spx.git
+cd spx
+make setup
+make doctor
+```
+
+然后回到游戏项目，下载 Go 模块并运行：
+
+```bash
+cd "/Users/pidan/Documents/New project/Hackathon-black-jack"
+go mod download
 xgo run .
 ```
 
-游戏代码位于根目录的 `.spx` 文件中，完整的 SPX 项目配置和图片资源位于 `assets/`。
+游戏代码位于根目录的 `.spx` 文件中，SPX 框架依赖声明在 `go.mod`，完整的项目配置和图片资源位于 `assets/`。首次运行会下载 `github.com/goplus/spx/v3` 及相关依赖。
 
 ## 导入 XBuilder
 
