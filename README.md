@@ -127,3 +127,6 @@ enemyCount
 - 重开时使用 `broadcastAndWait "reset-game"` 清理全部克隆，再重建地图。
 - 炮弹通过 `onTouchStart` 处理碰撞；敌我炮弹接触时双方同时销毁。
 - 敌军本地规则负责高频移动，不依赖远程 AI 请求，确保操作响应稳定。
+
+
+项目已同步xbuild：https://x.qiniu.com/project/wechat-0b3e86d46222d6e0/TANK-black-jack
